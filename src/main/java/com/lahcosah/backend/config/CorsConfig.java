@@ -15,7 +15,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://lahcosahnuehtrah.netlify.app")
+                        .allowedOrigins("https://lahcosahnuehtrah.netlify.app", "https://log-in-app-dee8693134d9.herokuapp.com")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
