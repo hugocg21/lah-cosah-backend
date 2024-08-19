@@ -14,11 +14,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://lahcosahnuehtrah.netlify.app")
+                        .allowedOrigins("https://lahcosahnuehtrah.netlify.app", "http://localhost:4200")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true)
-                        .exposedHeaders("Authorization");
+                        .allowCredentials(true);
             }
         };
     }
