@@ -15,9 +15,9 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 				.authorizeRequests()
-				.requestMatchers("/api/images/upload", "/api/media/upload/multiple")
+				.requestMatchers("/api/media/upload", "/api/media/upload/multiple")
 				.authenticated()
-				.requestMatchers("/api/images/**")
+				.requestMatchers("/api/media/**")
 				.permitAll()
 				.and()
 				.httpBasic();
