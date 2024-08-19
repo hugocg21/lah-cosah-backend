@@ -19,17 +19,15 @@ public class MediaService {
 	@Autowired
 	private MediaRepository mediaRepository;
 
-	private final String uploadDir = "C:/ruta/a/uploads/";
+	private final String uploadDir = "/tmp/uploads/";
 
 	public Media saveMedia(MultipartFile file, String folder) throws IOException {
 		String directoryPath = uploadDir;
-
 		if (folder != null && !folder.isEmpty()) {
 			directoryPath += folder + "/";
 		}
 
 		File directory = new File(directoryPath);
-
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}
