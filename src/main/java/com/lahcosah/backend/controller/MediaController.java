@@ -110,7 +110,7 @@ public class MediaController {
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@RequestParam("filename") String filename) throws IOException {
 		try {
-			Path file = Paths.get("C:/ruta/a/uploads").resolve(filename);
+			Path file = Paths.get("/tmp/uploads").resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {
