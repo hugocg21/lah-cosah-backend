@@ -1,6 +1,10 @@
 package com.lahcosah.backend.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Media {
@@ -14,8 +18,7 @@ public class Media {
 	@Column(nullable = true)
 	private String folder;
 
-	public Media() {
-	}
+	public Media() {}
 
 	public Media(String name, String url, String folder) {
 		this.name = name;
@@ -23,7 +26,6 @@ public class Media {
 		this.folder = folder;
 	}
 
-	// Getters and Setters
 	public Long getId() {
 		return id;
 	}

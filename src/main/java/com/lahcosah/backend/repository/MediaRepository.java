@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface MediaRepository extends JpaRepository<Media, Long> {
 	List<Media> findByFolder(String folder);
-
 	List<Media> findByFolderIsNull();
 }

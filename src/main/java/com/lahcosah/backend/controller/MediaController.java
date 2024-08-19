@@ -1,31 +1,36 @@
 package com.lahcosah.backend.controller;
 
-import com.lahcosah.backend.model.Media;
-import com.lahcosah.backend.repository.MediaRepository;
-import com.lahcosah.backend.service.MediaService;
-
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.lahcosah.backend.model.Media;
+import com.lahcosah.backend.repository.MediaRepository;
+import com.lahcosah.backend.service.MediaService;
 
 @RestController
 @RequestMapping("/api/media")
@@ -37,9 +42,9 @@ public class MediaController {
 	@Autowired
 	private MediaRepository mediaRepository;
 
+	@SuppressWarnings("null")
 	@PostMapping("/upload")
-	public ResponseEntity<Media> uploadMedia(@RequestParam("file") MultipartFile file,
-			@RequestParam(required = false) String folder) {
+	public ResponseEntity<Media> uploadMedia(@RequestParam("file") MultipartFile file, @RequestParam(required = false) String folder) {
 		try {
 			Media media = mediaService.saveMedia(file, folder);
 			return new ResponseEntity<>(media, HttpStatus.CREATED);
@@ -49,9 +54,9 @@ public class MediaController {
 		}
 	}
 
+	@SuppressWarnings("null")
 	@PostMapping("/upload/multiple")
-	public ResponseEntity<List<Media>> uploadMedias(@RequestParam("files") MultipartFile[] files,
-			@RequestParam(required = false) String folder) {
+	public ResponseEntity<List<Media>> uploadMedias(@RequestParam("files") MultipartFile[] files, @RequestParam(required = false) String folder) {
 		try {
 			List<Media> medias = mediaService.saveMedias(files, folder);
 			return new ResponseEntity<>(medias, HttpStatus.CREATED);
@@ -84,8 +89,7 @@ public class MediaController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Media> getMediaById(@PathVariable Long id) {
 		Optional<Media> media = mediaService.getMedia(id);
-		return media.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		return media.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@PutMapping("/{id}")
@@ -106,21 +110,15 @@ public class MediaController {
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@RequestParam("filename") String filename) throws IOException {
 		try {
-			// Construir la ruta completa al archivo
 			Path file = Paths.get("C:/ruta/a/uploads").resolve(filename);
-
 			Resource resource = new UrlResource(file.toUri());
 
 			if (resource.exists() || resource.isReadable()) {
-				// Determinar el tipo de contenido
 				String contentType = Files.probeContentType(file);
 				if (contentType == null) {
 					contentType = "application/octet-stream";
 				}
-
-				return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
-						.header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-						.body(resource);
+				return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"").body(resource);
 			} else {
 				return ResponseEntity.notFound().build();
 			}
@@ -179,13 +177,13 @@ public class MediaController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	@GetMapping("/api/media")
-    public ResponseEntity<?> getMedia() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "https://lahcosahnuehtrah.netlify.app");
-        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        headers.add("Access-Control-Allow-Headers", "Authorization, Content-Type");
-        return ResponseEntity.ok().headers(headers).body("Media data");
-    }
+	public ResponseEntity<?> getMedia() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Access-Control-Allow-Origin", "https://lahcosahnuehtrah.netlify.app");
+		headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		headers.add("Access-Control-Allow-Headers", "Authorization, Content-Type");
+		return ResponseEntity.ok().headers(headers).body("Media data");
+	}
 }

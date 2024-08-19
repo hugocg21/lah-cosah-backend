@@ -10,16 +10,17 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	@SuppressWarnings({ "removal", "deprecation" })
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-			.authorizeRequests()
-			.requestMatchers("/api/images/upload")
-			.authenticated()
-			.requestMatchers("/api/images/**")
-			.permitAll()
-			.and()
-			.httpBasic();
+				.authorizeRequests()
+				.requestMatchers("/api/images/upload", "/api/media/upload/multiple")
+				.authenticated()
+				.requestMatchers("/api/images/**")
+				.permitAll()
+				.and()
+				.httpBasic();
 
 		return http.build();
 	}
