@@ -12,8 +12,14 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().requestMatchers("/api/images/upload").authenticated()
-				.requestMatchers("/api/images/**").permitAll().and().httpBasic();
+		http.csrf().disable()
+			.authorizeRequests()
+			.requestMatchers("/api/images/upload")
+			.authenticated()
+			.requestMatchers("/api/images/**")
+			.permitAll()
+			.and()
+			.httpBasic();
 
 		return http.build();
 	}

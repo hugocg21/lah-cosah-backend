@@ -179,4 +179,13 @@ public class MediaController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	@GetMapping("/api/media")
+    public ResponseEntity<?> getMedia() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "https://lahcosahnuehtrah.netlify.app");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        headers.add("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        return ResponseEntity.ok().headers(headers).body("Media data");
+    }
 }
