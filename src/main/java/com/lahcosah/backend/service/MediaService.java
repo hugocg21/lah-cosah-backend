@@ -21,15 +21,16 @@ public class MediaService {
     private FirebaseStorageService firebaseStorageService;
 
     public Media saveMedia(MultipartFile file, String folder) throws IOException {
-        String fileUrl = firebaseStorageService.uploadFile(file, folder);
-        Media media = new Media(file.getOriginalFilename(), fileUrl, folder);
+        String storagePath = firebaseStorageService.uploadFile(file, folder);
+        Media media = new Media(file.getOriginalFilename(), storagePath, folder);
         return mediaRepository.save(media);
     }
 
     public List<String> saveMedias(MultipartFile[] files, String folder) throws IOException {
         List<String> urls = new ArrayList<>();
         for (MultipartFile file : files) {
-            urls.add(firebaseStorageService.uploadFile(file, folder));
+            String storagePath = firebaseStorageService.uploadFile(file, folder);
+            urls.add(storagePath);
         }
         return urls;
     }
@@ -38,7 +39,7 @@ public class MediaService {
         Optional<Media> mediaOptional = mediaRepository.findById(id);
         if (mediaOptional.isPresent()) {
             Media media = mediaOptional.get();
-            firebaseStorageService.deleteFile(media.getUrl());
+            firebaseStorageService.deleteFile(media.getUrl()); // Pass storage path
             mediaRepository.deleteById(id);
             return true;
         }
@@ -56,3 +57,4 @@ public class MediaService {
         }
     }
 }
+
