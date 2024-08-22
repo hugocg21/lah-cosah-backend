@@ -20,6 +20,7 @@ public class MediaService {
     @Autowired
     private FirebaseStorageService firebaseStorageService;
 
+    //hola
     public Media saveMedia(MultipartFile file, String folder) throws IOException {
         String storagePath = firebaseStorageService.uploadFile(file, folder);
         Media media = new Media(file.getOriginalFilename(), storagePath, folder);
